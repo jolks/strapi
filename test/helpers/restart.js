@@ -1,5 +1,5 @@
-module.exports = function (rq) {
-  return new Promise(async (resolve) => {
+module.exports = function(rq, initTime = 20000) {
+  return new Promise(async resolve => {
     const ping = async () => {
       try {
         await rq({
@@ -10,11 +10,12 @@ module.exports = function (rq) {
           headers: {
             'Content-Type': 'application/json',
             'Keep-Alive': false,
-          }
+          },
         });
 
         return resolve();
       } catch (err) {
+        console.log(err);
         if (err.statusCode) {
           return resolve();
         } else {
@@ -27,6 +28,6 @@ module.exports = function (rq) {
 
     setTimeout(() => {
       ping();
-    }, 1000);
+    }, initTime);
   });
 };

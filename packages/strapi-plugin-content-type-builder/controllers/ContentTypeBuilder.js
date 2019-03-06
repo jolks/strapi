@@ -82,10 +82,12 @@ module.exports = {
           strapi.emit('didCreateFirstContentType');
         }
 
-        ctx.send({ ok: true });
 
+        ctx.send({ ok: true });
+        console.log(`${new Date().toUTCString()} called reload`);
         strapi.reload();
       } catch (e) {
+        console.log('fs error', e);
         strapi.emit('didNotCreateContentType', e);
         return ctx.badRequest(null, [{ messages: [{ id: 'request.error.model.write' }] }]);
       }
